@@ -1,25 +1,51 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../src/store';
-import { selectAnswer, nextQuestion, previousQuestion, submitQuiz, resetQuiz } from '../../src/features/quiz/store/quizSlice';
-import { incrementQuizzesCompleted, updateAverageScore, addStudyTime } from '../../src/features/home/store/statsSlice';
-import { router, Stack } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
-import { colors } from '../../src/shared/theme/colors';
+import { Ionicons } from "@expo/vector-icons";
+import { router, Stack } from "expo-router";
+import React, { useEffect, useState } from "react";
+import {
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addStudyTime,
+  incrementQuizzesCompleted,
+  updateAverageScore,
+} from "../../src/features/home/store/statsSlice";
+import {
+  nextQuestion,
+  previousQuestion,
+  resetQuiz,
+  selectAnswer,
+  submitQuiz,
+} from "../../src/features/quiz/store/quizSlice";
+import { colors } from "../../src/shared/theme/colors";
+import { RootState } from "../../src/store";
 
 export default function QuizTestScreen() {
   const dispatch = useDispatch();
-  const { currentQuiz, currentQuestionIndex, selectedAnswers, score, isQuizActive, category } = useSelector(
-    (state: RootState) => state.quiz
-  );
+  const {
+    currentQuiz,
+    currentQuestionIndex,
+    selectedAnswers,
+    score,
+    category,
+  } = useSelector((state: RootState) => state.quiz);
   const [showResults, setShowResults] = useState(false);
   const [startTime] = useState(Date.now());
 
+  useEffect(() => {
+    if (currentQuiz.length === 0) {
+      router.replace("/quiz");
+    }
+  }, [currentQuiz]);
+
   if (currentQuiz.length === 0) {
-    router.replace('/quiz');
-    return null;
+    return null; // Render nothing while redirecting
   }
 
   const currentQuestion = currentQuiz[currentQuestionIndex];
@@ -32,7 +58,10 @@ export default function QuizTestScreen() {
 
   const handleNext = () => {
     if (!selectedAnswer) {
-      Alert.alert('Please select an answer', 'You must select an answer before proceeding.');
+      Alert.alert(
+        "Please select an answer",
+        "You must select an answer before proceeding."
+      );
       return;
     }
     if (currentQuestionIndex < currentQuiz.length - 1) {
@@ -46,19 +75,23 @@ export default function QuizTestScreen() {
 
   const handleSubmit = () => {
     if (!selectedAnswer) {
-      Alert.alert('Please select an answer', 'You must select an answer for the current question.');
+      Alert.alert(
+        "Please select an answer",
+        "You must select an answer for the current question."
+      );
       return;
     }
 
     // Check if all questions are answered
-    const unansweredCount = currentQuiz.length - Object.keys(selectedAnswers).length;
+    const unansweredCount =
+      currentQuiz.length - Object.keys(selectedAnswers).length;
     if (unansweredCount > 0) {
       Alert.alert(
-        'Incomplete Quiz',
+        "Incomplete Quiz",
         `You have ${unansweredCount} unanswered question(s). Do you want to submit anyway?`,
         [
-          { text: 'Cancel', style: 'cancel' },
-          { text: 'Submit', style: 'default', onPress: finishQuiz },
+          { text: "Cancel", style: "cancel" },
+          { text: "Submit", style: "default", onPress: finishQuiz },
         ]
       );
     } else {
@@ -71,7 +104,7 @@ export default function QuizTestScreen() {
     const timeTaken = Math.round((Date.now() - startTime) / (1000 * 60)); // in minutes
     dispatch(addStudyTime(timeTaken));
     dispatch(incrementQuizzesCompleted());
-    
+
     // Calculate percentage score
     let calculatedScore = 0;
     currentQuiz.forEach((question) => {
@@ -81,7 +114,7 @@ export default function QuizTestScreen() {
     });
     const percentage = (calculatedScore / currentQuiz.length) * 100;
     dispatch(updateAverageScore(percentage));
-    
+
     setShowResults(true);
   };
 
@@ -96,25 +129,38 @@ export default function QuizTestScreen() {
     const passed = percentage >= 60;
 
     return (
-      <SafeAreaView style={styles.container} edges={['bottom']}>
+      <SafeAreaView style={styles.container} edges={["bottom"]}>
         <Stack.Screen options={{ headerShown: false }} />
         <View style={styles.resultsContainer}>
-          <View style={[styles.scoreCircle, { borderColor: passed ? colors.success : colors.error }]}>
+          <View
+            style={[
+              styles.scoreCircle,
+              { borderColor: passed ? colors.success : colors.error },
+            ]}
+          >
             <Ionicons
-              name={passed ? 'checkmark-circle' : 'close-circle'}
+              name={passed ? "checkmark-circle" : "close-circle"}
               size={64}
               color={passed ? colors.success : colors.error}
             />
-            <Text style={styles.scorePercentage}>{Math.round(percentage)}%</Text>
+            <Text style={styles.scorePercentage}>
+              {Math.round(percentage)}%
+            </Text>
           </View>
-          <Text style={styles.resultTitle}>{passed ? 'Congratulations!' : 'Keep Practicing!'}</Text>
+          <Text style={styles.resultTitle}>
+            {passed ? "Congratulations!" : "Keep Practicing!"}
+          </Text>
           <Text style={styles.resultSubtitle}>
             You scored {score} out of {currentQuiz.length}
           </Text>
 
           <View style={styles.resultsCard}>
             <View style={styles.resultRow}>
-              <Ionicons name="checkmark-circle" size={20} color={colors.success} />
+              <Ionicons
+                name="checkmark-circle"
+                size={20}
+                color={colors.success}
+              />
               <Text style={styles.resultLabel}>Correct Answers</Text>
               <Text style={styles.resultValue}>{score}</Text>
             </View>
@@ -122,7 +168,9 @@ export default function QuizTestScreen() {
             <View style={styles.resultRow}>
               <Ionicons name="close-circle" size={20} color={colors.error} />
               <Text style={styles.resultLabel}>Incorrect Answers</Text>
-              <Text style={styles.resultValue}>{currentQuiz.length - score}</Text>
+              <Text style={styles.resultValue}>
+                {currentQuiz.length - score}
+              </Text>
             </View>
             <View style={styles.resultsDivider} />
             <View style={styles.resultRow}>
@@ -141,24 +189,24 @@ export default function QuizTestScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
+    <SafeAreaView style={styles.container} edges={["bottom"]}>
       <Stack.Screen
         options={{
           headerShown: true,
           headerTitle: category,
           headerStyle: { backgroundColor: colors.primary },
-          headerTintColor: '#fff',
+          headerTintColor: "#fff",
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
                 Alert.alert(
-                  'Exit Quiz',
-                  'Are you sure you want to exit? Your progress will be lost.',
+                  "Exit Quiz",
+                  "Are you sure you want to exit? Your progress will be lost.",
                   [
-                    { text: 'Cancel', style: 'cancel' },
+                    { text: "Cancel", style: "cancel" },
                     {
-                      text: 'Exit',
-                      style: 'destructive',
+                      text: "Exit",
+                      style: "destructive",
                       onPress: () => {
                         dispatch(resetQuiz());
                         router.back();
@@ -186,7 +234,9 @@ export default function QuizTestScreen() {
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.questionCard}>
           <View style={styles.questionNumberBadge}>
-            <Text style={styles.questionNumberText}>Q{currentQuestionIndex + 1}</Text>
+            <Text style={styles.questionNumberText}>
+              Q{currentQuestionIndex + 1}
+            </Text>
           </View>
           <Text style={styles.questionText}>{currentQuestion.question}</Text>
         </View>
@@ -239,7 +289,9 @@ export default function QuizTestScreen() {
           <Ionicons
             name="chevron-back"
             size={20}
-            color={currentQuestionIndex === 0 ? colors.textLight : colors.primary}
+            color={
+              currentQuestionIndex === 0 ? colors.textLight : colors.primary
+            }
           />
           <Text
             style={[
@@ -252,12 +304,18 @@ export default function QuizTestScreen() {
         </TouchableOpacity>
 
         {currentQuestionIndex < currentQuiz.length - 1 ? (
-          <TouchableOpacity style={[styles.navButton, styles.nextButton]} onPress={handleNext}>
+          <TouchableOpacity
+            style={[styles.navButton, styles.nextButton]}
+            onPress={handleNext}
+          >
             <Text style={styles.nextButtonText}>Next</Text>
             <Ionicons name="chevron-forward" size={20} color="#fff" />
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity style={[styles.navButton, styles.submitButton]} onPress={handleSubmit}>
+          <TouchableOpacity
+            style={[styles.navButton, styles.submitButton]}
+            onPress={handleSubmit}
+          >
             <Text style={styles.submitButtonText}>Submit Quiz</Text>
             <Ionicons name="checkmark" size={20} color="#fff" />
           </TouchableOpacity>
@@ -280,18 +338,18 @@ const styles = StyleSheet.create({
     height: 8,
     backgroundColor: colors.border,
     borderRadius: 4,
-    overflow: 'hidden',
+    overflow: "hidden",
     marginBottom: 8,
   },
   progressFill: {
-    height: '100%',
+    height: "100%",
     backgroundColor: colors.primary,
   },
   progressText: {
     fontSize: 14,
     color: colors.textSecondary,
-    textAlign: 'center',
-    fontWeight: '600',
+    textAlign: "center",
+    fontWeight: "600",
   },
   content: {
     flex: 1,
@@ -310,29 +368,29 @@ const styles = StyleSheet.create({
   },
   questionNumberBadge: {
     backgroundColor: colors.primary,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 6,
     marginBottom: 12,
   },
   questionNumberText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 12,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   questionText: {
     fontSize: 18,
     color: colors.textPrimary,
     lineHeight: 26,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   optionsContainer: {
     marginBottom: 16,
   },
   optionCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: colors.card,
     padding: 16,
     borderRadius: 12,
@@ -342,7 +400,7 @@ const styles = StyleSheet.create({
   },
   optionCardSelected: {
     borderColor: colors.primary,
-    backgroundColor: colors.primary + '10',
+    backgroundColor: colors.primary + "10",
   },
   optionRadio: {
     width: 24,
@@ -351,8 +409,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.border,
     marginRight: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   optionRadioSelected: {
     borderColor: colors.primary,
@@ -370,11 +428,11 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
   optionTextSelected: {
-    fontWeight: '600',
+    fontWeight: "600",
     color: colors.primary,
   },
   navigationButtons: {
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 16,
     backgroundColor: colors.card,
     borderTopWidth: 1,
@@ -382,9 +440,9 @@ const styles = StyleSheet.create({
   },
   navButton: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 14,
     borderRadius: 10,
     marginHorizontal: 6,
@@ -405,7 +463,7 @@ const styles = StyleSheet.create({
   },
   navButtonText: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
     color: colors.primary,
     marginLeft: 4,
   },
@@ -414,20 +472,20 @@ const styles = StyleSheet.create({
   },
   nextButtonText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#fff',
+    fontWeight: "600",
+    color: "#fff",
     marginRight: 4,
   },
   submitButtonText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#fff',
+    fontWeight: "600",
+    color: "#fff",
     marginRight: 4,
   },
   resultsContainer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: 24,
   },
   scoreCircle: {
@@ -435,20 +493,20 @@ const styles = StyleSheet.create({
     height: 160,
     borderRadius: 80,
     borderWidth: 4,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginBottom: 24,
     backgroundColor: colors.card,
   },
   scorePercentage: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.textPrimary,
     marginTop: 8,
   },
   resultTitle: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.textPrimary,
     marginBottom: 8,
   },
@@ -459,7 +517,7 @@ const styles = StyleSheet.create({
   },
   resultsCard: {
     backgroundColor: colors.card,
-    width: '100%',
+    width: "100%",
     padding: 20,
     borderRadius: 12,
     marginBottom: 32,
@@ -470,8 +528,8 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   resultRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   resultLabel: {
     flex: 1,
@@ -481,7 +539,7 @@ const styles = StyleSheet.create({
   },
   resultValue: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.textPrimary,
   },
   resultsDivider: {
@@ -501,8 +559,8 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   finishButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });

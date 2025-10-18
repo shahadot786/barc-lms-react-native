@@ -63,7 +63,6 @@ export default function CourseDetailsScreen() {
         }
       }
     } catch (error) {
-      console.error("Error loading course details:", error);
       const foundCourse = coursesData.find((c) => c.id === id);
       if (foundCourse) setCourse(foundCourse);
     } finally {

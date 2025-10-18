@@ -62,7 +62,6 @@ export default function CoursesScreen() {
         }
       }
     } catch (error) {
-      console.error("Error loading courses:", error);
       // Try loading from cache on error
       const cachedCourses = await coursesService.getCachedCourses();
       if (cachedCourses) {
