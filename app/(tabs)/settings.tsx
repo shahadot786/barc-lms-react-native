@@ -1,34 +1,34 @@
-import React from 'react';
+import { Ionicons } from "@expo/vector-icons";
+import React from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
   Alert,
+  ScrollView,
+  StyleSheet,
   Switch,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
-import { colors } from '../../src/shared/theme/colors';
-import { coursesService } from '../../src/features/courses/services/coursesService';
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { coursesService } from "../../src/features/courses/services/coursesService";
+import { colors } from "../../src/shared/theme/colors";
 
 export default function SettingsScreen() {
   const [notificationsEnabled, setNotificationsEnabled] = React.useState(true);
-  const [darkModeEnabled, setDarkModeEnabled] = React.useState(false);
+  const [languageEnabled, setLanguageEnabled] = React.useState(false);
 
   const handleClearCache = async () => {
     Alert.alert(
-      'Clear Cache',
-      'Are you sure you want to clear all cached data? You will need an internet connection to reload courses.',
+      "Clear Cache",
+      "Are you sure you want to clear all cached data? You will need an internet connection to reload courses.",
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: "Cancel", style: "cancel" },
         {
-          text: 'Clear',
-          style: 'destructive',
+          text: "Clear",
+          style: "destructive",
           onPress: async () => {
             await coursesService.clearCache();
-            Alert.alert('Success', 'Cache cleared successfully');
+            Alert.alert("Success", "Cache cleared successfully");
           },
         },
       ]
@@ -37,58 +37,58 @@ export default function SettingsScreen() {
 
   const settingsSections = [
     {
-      title: 'Preferences',
+      title: "Preferences",
       items: [
         {
-          icon: 'notifications-outline' as const,
-          label: 'Notifications',
-          type: 'switch' as const,
+          icon: "notifications-outline" as const,
+          label: "Notifications",
+          type: "switch" as const,
           value: notificationsEnabled,
           onValueChange: setNotificationsEnabled,
         },
         {
-          icon: 'moon-outline' as const,
-          label: 'Dark Mode',
-          type: 'switch' as const,
-          value: darkModeEnabled,
-          onValueChange: setDarkModeEnabled,
-          subtitle: 'Coming soon',
+          icon: "language-outline" as const,
+          label: "Language",
+          type: "switch" as const,
+          value: languageEnabled,
+          onValueChange: setLanguageEnabled,
+          subtitle: "Coming soon",
         },
       ],
     },
     {
-      title: 'Data & Storage',
+      title: "Data & Storage",
       items: [
         {
-          icon: 'trash-outline' as const,
-          label: 'Clear Cache',
-          type: 'button' as const,
+          icon: "trash-outline" as const,
+          label: "Clear Cache",
+          type: "button" as const,
           onPress: handleClearCache,
-          subtitle: 'Remove all cached course data',
+          subtitle: "Remove all cached course data",
         },
       ],
     },
     {
-      title: 'About',
+      title: "About",
       items: [
         {
-          icon: 'information-circle-outline' as const,
-          label: 'App Version',
-          type: 'info' as const,
-          value: '1.0.0',
+          icon: "information-circle-outline" as const,
+          label: "App Version",
+          type: "info" as const,
+          value: "1.0.0",
         },
         {
-          icon: 'globe-outline' as const,
-          label: 'Website',
-          type: 'info' as const,
-          value: 'hellobarc.com',
+          icon: "globe-outline" as const,
+          label: "Website",
+          type: "info" as const,
+          value: "hellobarc.com",
         },
       ],
     },
   ];
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
+    <SafeAreaView style={styles.container} edges={["bottom"]}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <View style={styles.profileSection}>
@@ -108,37 +108,54 @@ export default function SettingsScreen() {
                 <View key={itemIndex}>
                   <TouchableOpacity
                     style={styles.settingItem}
-                    onPress={item.type === 'button' ? item.onPress : undefined}
-                    disabled={item.type !== 'button'}
-                    activeOpacity={item.type === 'button' ? 0.7 : 1}
+                    onPress={item.type === "button" ? item.onPress : undefined}
+                    disabled={item.type !== "button"}
+                    activeOpacity={item.type === "button" ? 0.7 : 1}
                   >
                     <View style={styles.settingLeft}>
                       <View style={styles.iconContainer}>
-                        <Ionicons name={item.icon} size={22} color={colors.textPrimary} />
+                        <Ionicons
+                          name={item.icon}
+                          size={22}
+                          color={colors.textPrimary}
+                        />
                       </View>
                       <View style={styles.settingText}>
                         <Text style={styles.settingLabel}>{item.label}</Text>
-                        {item.subtitle && (
-                          <Text style={styles.settingSubtitle}>{item.subtitle}</Text>
+                        {"subtitle" in item && item.subtitle && (
+                          <Text style={styles.settingSubtitle}>
+                            {item.subtitle}
+                          </Text>
                         )}
                       </View>
                     </View>
-                    {item.type === 'switch' && (
+                    {item.type === "switch" && (
                       <Switch
                         value={item.value}
                         onValueChange={item.onValueChange}
-                        trackColor={{ false: colors.border, true: colors.primary + '80' }}
-                        thumbColor={item.value ? colors.primary : colors.textLight}
+                        trackColor={{
+                          false: colors.border,
+                          true: colors.primary + "80",
+                        }}
+                        thumbColor={
+                          item.value ? colors.primary : colors.textLight
+                        }
                       />
                     )}
-                    {item.type === 'info' && (
+                    {item.type === "info" && (
                       <Text style={styles.settingValue}>{item.value}</Text>
                     )}
-                    {item.type === 'button' && (
-                      <Ionicons name="chevron-forward" size={20} color={colors.textSecondary} />
+                    {item.type === "button" && (
+                      <Ionicons
+                        name="chevron-forward"
+                        size={20}
+                        color={colors.textSecondary}
+                      />
                     )}
                   </TouchableOpacity>
-                  {itemIndex < section.items.length - 1 && <View style={styles.divider} />}
+                  {itemIndex < section.items.length - 1 && (
+                    <View style={styles.divider} />
+                  )}
                 </View>
               ))}
             </View>
@@ -165,20 +182,20 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   profileSection: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   avatar: {
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: colors.primary + '20',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: colors.primary + "20",
+    alignItems: "center",
+    justifyContent: "center",
     marginBottom: 12,
   },
   userName: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.textPrimary,
     marginBottom: 4,
   },
@@ -191,28 +208,28 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 13,
-    fontWeight: '600',
+    fontWeight: "600",
     color: colors.textSecondary,
     marginBottom: 8,
     paddingHorizontal: 16,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
     letterSpacing: 0.5,
   },
   sectionContent: {
     backgroundColor: colors.card,
     marginHorizontal: 16,
     borderRadius: 12,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   settingItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     padding: 16,
   },
   settingLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     flex: 1,
   },
   iconContainer: {
@@ -220,8 +237,8 @@ const styles = StyleSheet.create({
     height: 36,
     borderRadius: 8,
     backgroundColor: colors.background,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginRight: 12,
   },
   settingText: {
@@ -247,13 +264,13 @@ const styles = StyleSheet.create({
     marginLeft: 64,
   },
   footer: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingVertical: 32,
   },
   footerText: {
     fontSize: 14,
     color: colors.textSecondary,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   footerSubtext: {
     fontSize: 12,
