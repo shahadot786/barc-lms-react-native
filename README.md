@@ -2,19 +2,49 @@
 
 A comprehensive mobile Learning Management System (LMS) built for the British American Resource Center (BARC). This app provides students with an engaging platform for taking quizzes, accessing courses, and tracking their learning progress.
 
-![BARC LMS](https://img.shields.io/badge/Expo-54.0.0-blue) ![React Native](https://img.shields.io/badge/React%20Native-0.79.5-green) ![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-blue)
+![BARC LMS](https://img.shields.io/badge/Expo-54.0.13-blue) ![React Native](https://img.shields.io/badge/React%20Native-0.81.4-green) ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.2-blue)
 
-### App Screenshots
+## 📱 App Screenshots
 
-![Splash Screen](./assets/screenshots/splash.jpg)
-![Home Screen](./assets/screenshots/home.jpg)
-![Quiz Screen](./assets/screenshots/quiz.jpg)
-![Quiz Details Screen](./assets/screenshots/quiz-details.jpg)
-![Quiz Test Screen](./assets/screenshots/quiz-playground.jpg)
-![Quiz Result Screen](./assets/screenshots/quiz-result.jpg)
-![Courses Screen](./assets/screenshots/course.jpg)
-![Course Details Screen](./assets/screenshots/course-details.jpg)
-![Settings Screen](./assets/screenshots/settings.jpg)
+<div align="center">
+
+### 🟣 Splash Screen
+
+<img src="./assets/screenshots/splash.jpg" alt="Splash Screen" width="300"/>
+
+### 🏠 Home Screen
+
+<img src="./assets/screenshots/home.jpg" alt="Home Screen" width="300"/>
+
+### 🧠 Quiz Screen
+
+<img src="./assets/screenshots/quiz.jpg" alt="Quiz Screen" width="300"/>
+
+### 📄 Quiz Details Screen
+
+<img src="./assets/screenshots/quiz-details.jpg" alt="Quiz Details Screen" width="300"/>
+
+### ▶️ Quiz Test Screen
+
+<img src="./assets/screenshots/quiz-playground.jpg" alt="Quiz Test Screen" width="300"/>
+
+### 🏁 Quiz Result Screen
+
+<img src="./assets/screenshots/quiz-result.jpg" alt="Quiz Result Screen" width="300"/>
+
+### 📚 Courses Screen
+
+<img src="./assets/screenshots/course.jpg" alt="Courses Screen" width="300"/>
+
+### 📘 Course Details Screen
+
+<img src="./assets/screenshots/course-details.jpg" alt="Course Details Screen" width="300"/>
+
+### ⚙️ Settings Screen
+
+<img src="./assets/screenshots/settings.jpg" alt="Settings Screen" width="300"/>
+
+</div>
 
 ## 🎯 Features
 

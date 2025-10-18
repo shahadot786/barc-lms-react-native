@@ -158,6 +158,7 @@ export default function CourseDetailsScreen() {
             <Text style={styles.enrollButtonText}>Start Learning</Text>
           </TouchableOpacity>
         </View>
+        <View style={{ height: 100 }} />
       </ScrollView>
     </SafeAreaView>
   );

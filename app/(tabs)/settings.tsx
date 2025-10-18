@@ -166,6 +166,7 @@ export default function SettingsScreen() {
           <Text style={styles.footerText}>BARC LMS © 2025</Text>
           <Text style={styles.footerSubtext}>Learning Management System</Text>
         </View>
+        <View style={{ height: 100 }} />
       </ScrollView>
     </SafeAreaView>
   );

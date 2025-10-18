@@ -1,7 +1,7 @@
+import { FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-import { Ionicons, FontAwesome6 } from "@expo/vector-icons";
-import { colors } from "../../src/shared/theme/colors";
 import React from "react";
+import { colors } from "../../src/shared/theme/colors";
 
 export default function TabLayout() {
   return (
@@ -13,7 +13,7 @@ export default function TabLayout() {
           backgroundColor: colors.card,
           borderTopWidth: 1,
           borderTopColor: colors.border,
-          height: 60,
+          height: 70,
           paddingBottom: 8,
           paddingTop: 8,
         },
