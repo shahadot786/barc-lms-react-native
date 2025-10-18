@@ -1,12 +1,18 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../src/store';
-import { StatCard } from '../../src/features/home/components/StatCard';
-import { colors } from '../../src/shared/theme/colors';
-import { Ionicons } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
+import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
+import React from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
+import { StatCard } from "../../src/features/home/components/StatCard";
+import { colors } from "../../src/shared/theme/colors";
+import { RootState } from "../../src/store";
 
 export default function HomeScreen() {
   const stats = useSelector((state: RootState) => state.stats);
@@ -15,22 +21,22 @@ export default function HomeScreen() {
   const quickActions = [
     {
       id: 1,
-      title: 'Take a Quiz',
-      icon: 'help-circle-outline' as const,
+      title: "Take a Quiz",
+      icon: "help-circle-outline" as const,
       color: colors.primary,
-      action: () => router.push('/quiz'),
+      action: () => router.push("/quiz"),
     },
     {
       id: 2,
-      title: 'Browse Courses',
-      icon: 'book-outline' as const,
+      title: "Browse Courses",
+      icon: "book-outline" as const,
       color: colors.secondary,
-      action: () => router.push('/courses'),
+      action: () => router.push("/courses"),
     },
   ];
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
+    <SafeAreaView style={styles.container} edges={["bottom"]}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <View>
@@ -90,7 +96,12 @@ export default function HomeScreen() {
                 onPress={action.action}
                 activeOpacity={0.7}
               >
-                <View style={[styles.actionIcon, { backgroundColor: action.color + '20' }]}>
+                <View
+                  style={[
+                    styles.actionIcon,
+                    { backgroundColor: action.color + "20" },
+                  ]}
+                >
                   <Ionicons name={action.icon} size={32} color={action.color} />
                 </View>
                 <Text style={styles.actionTitle}>{action.title}</Text>
@@ -99,12 +110,17 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        <View style={styles.section}>
+        <View style={[styles.section, { marginBottom: 100 }]}>
           <Text style={styles.sectionTitle}>About BARC</Text>
           <View style={styles.infoCard}>
-            <Ionicons name="information-circle" size={24} color={colors.primary} />
+            <Ionicons
+              name="information-circle"
+              size={24}
+              color={colors.primary}
+            />
             <Text style={styles.infoText}>
-              British American Resource Center - Your trusted partner in English learning and IELTS preparation.
+              British American Resource Center - Your trusted partner in English
+              learning and IELTS preparation.
             </Text>
           </View>
         </View>
@@ -119,16 +135,16 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 16,
     backgroundColor: colors.card,
     marginBottom: 16,
   },
   greeting: {
     fontSize: 22,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.textPrimary,
   },
   subtitle: {
@@ -140,31 +156,31 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: colors.primary + '20',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: colors.primary + "20",
+    alignItems: "center",
+    justifyContent: "center",
   },
   section: {
-    marginBottom: 24,
+    // marginBottom: 14,
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.textPrimary,
     marginBottom: 12,
     paddingHorizontal: 16,
   },
   statsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     paddingHorizontal: 8,
   },
   statItem: {
-    width: '50%',
+    width: "50%",
     padding: 8,
   },
   actionsContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingHorizontal: 8,
   },
   actionCard: {
@@ -173,7 +189,7 @@ const styles = StyleSheet.create({
     padding: 20,
     margin: 8,
     borderRadius: 12,
-    alignItems: 'center',
+    alignItems: "center",
     shadowColor: colors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -184,18 +200,18 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 32,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginBottom: 12,
   },
   actionTitle: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
     color: colors.textPrimary,
-    textAlign: 'center',
+    textAlign: "center",
   },
   infoCard: {
-    flexDirection: 'row',
+    flexDirection: "row",
     backgroundColor: colors.card,
     padding: 16,
     marginHorizontal: 16,

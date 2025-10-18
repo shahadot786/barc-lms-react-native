@@ -1,27 +1,34 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Ionicons } from "@expo/vector-icons";
+import NetInfo from "@react-native-community/netinfo";
+import { router } from "expo-router";
+import React, { useEffect, useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
   ActivityIndicator,
   RefreshControl,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../src/store';
-import { setCourses, setLoading, setOfflineStatus } from '../../src/features/courses/store/coursesSlice';
-import { CourseCard } from '../../src/features/courses/components/CourseCard';
-import { coursesService } from '../../src/features/courses/services/coursesService';
-import { coursesData } from '../../src/features/courses/data/coursesData';
-import { colors } from '../../src/shared/theme/colors';
-import { router } from 'expo-router';
-import NetInfo from '@react-native-community/netinfo';
-import { Ionicons } from '@expo/vector-icons';
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch, useSelector } from "react-redux";
+import { CourseCard } from "../../src/features/courses/components/CourseCard";
+import { coursesData } from "../../src/features/courses/data/coursesData";
+import { coursesService } from "../../src/features/courses/services/coursesService";
+import {
+  setCourses,
+  setLoading,
+  setOfflineStatus,
+} from "../../src/features/courses/store/coursesSlice";
+import { colors } from "../../src/shared/theme/colors";
+import { RootState } from "../../src/store";
 
 export default function CoursesScreen() {
   const dispatch = useDispatch();
-  const { courses, loading, isOffline } = useSelector((state: RootState) => state.courses);
+  const { courses, loading, isOffline } = useSelector(
+    (state: RootState) => state.courses
+  );
   const [refreshing, setRefreshing] = useState(false);
 
   const loadCourses = async (forceRefresh = false) => {
@@ -37,10 +44,10 @@ export default function CoursesScreen() {
         // Simulate API call - in real app, this would be an API request
         await new Promise((resolve) => setTimeout(resolve, 500));
         dispatch(setCourses(coursesData));
-        
+
         // Cache the courses
         await coursesService.cacheCourses(coursesData);
-        
+
         // Cache individual course details
         for (const course of coursesData) {
           await coursesService.cacheCourseDetails(course.id, course);
@@ -55,7 +62,7 @@ export default function CoursesScreen() {
         }
       }
     } catch (error) {
-      console.error('Error loading courses:', error);
+      console.error("Error loading courses:", error);
       // Try loading from cache on error
       const cachedCourses = await coursesService.getCachedCourses();
       if (cachedCourses) {
@@ -93,7 +100,7 @@ export default function CoursesScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
+    <SafeAreaView style={styles.container} edges={["bottom"]}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -108,7 +115,9 @@ export default function CoursesScreen() {
         {isOffline && (
           <View style={styles.offlineBanner}>
             <Ionicons name="cloud-offline" size={20} color="#fff" />
-            <Text style={styles.offlineText}>Offline Mode - Showing cached content</Text>
+            <Text style={styles.offlineText}>
+              Offline Mode - Showing cached content
+            </Text>
           </View>
         )}
 
@@ -135,6 +144,7 @@ export default function CoursesScreen() {
             <Text style={styles.emptyText}>No courses available</Text>
           </View>
         )}
+        <View style={{ height: 100 }} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -147,8 +157,8 @@ const styles = StyleSheet.create({
   },
   centerContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: colors.background,
   },
   loadingText: {
@@ -157,9 +167,9 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
   },
   offlineBanner: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: colors.warning,
     padding: 12,
     marginHorizontal: 16,
@@ -168,9 +178,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   offlineText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
     marginLeft: 8,
   },
   header: {
@@ -180,7 +190,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.textPrimary,
     marginBottom: 6,
   },
@@ -192,8 +202,8 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
   },
   emptyContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 60,
   },
   emptyText: {
