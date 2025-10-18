@@ -10,39 +10,39 @@ A comprehensive mobile Learning Management System (LMS) built for the British Am
 
 ### 🟣 Splash Screen
 
-<img src="./assets/screenshots/splash.jpg" alt="Splash Screen" width="400"/>
+<img src="./assets/screenshots/splash.jpg" alt="Splash Screen" width="300"/>
 
 ### 🏠 Home Screen
 
-<img src="./assets/screenshots/home.jpg" alt="Home Screen" width="400"/>
+<img src="./assets/screenshots/home.jpg" alt="Home Screen" width="300"/>
 
 ### 🧠 Quiz Screen
 
-<img src="./assets/screenshots/quiz.jpg" alt="Quiz Screen" width="400"/>
+<img src="./assets/screenshots/quiz.jpg" alt="Quiz Screen" width="300"/>
 
 ### 📄 Quiz Details Screen
 
-<img src="./assets/screenshots/quiz-details.jpg" alt="Quiz Details Screen" width="400"/>
+<img src="./assets/screenshots/quiz-details.jpg" alt="Quiz Details Screen" width="300"/>
 
 ### ▶️ Quiz Test Screen
 
-<img src="./assets/screenshots/quiz-playground.jpg" alt="Quiz Test Screen" width="400"/>
+<img src="./assets/screenshots/quiz-playground.jpg" alt="Quiz Test Screen" width="300"/>
 
 ### 🏁 Quiz Result Screen
 
-<img src="./assets/screenshots/quiz-result.jpg" alt="Quiz Result Screen" width="400"/>
+<img src="./assets/screenshots/quiz-result.jpg" alt="Quiz Result Screen" width="300"/>
 
 ### 📚 Courses Screen
 
-<img src="./assets/screenshots/course.jpg" alt="Courses Screen" width="400"/>
+<img src="./assets/screenshots/course.jpg" alt="Courses Screen" width="300"/>
 
 ### 📘 Course Details Screen
 
-<img src="./assets/screenshots/course-details.jpg" alt="Course Details Screen" width="400"/>
+<img src="./assets/screenshots/course-details.jpg" alt="Course Details Screen" width="300"/>
 
 ### ⚙️ Settings Screen
 
-<img src="./assets/screenshots/settings.jpg" alt="Settings Screen" width="400"/>
+<img src="./assets/screenshots/settings.jpg" alt="Settings Screen" width="300"/>
 
 </div>
 
