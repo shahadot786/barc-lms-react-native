@@ -8,9 +8,7 @@ export const coursesService = {
   async cacheCourses(courses: Course[]): Promise<void> {
     try {
       await AsyncStorage.setItem(COURSES_CACHE_KEY, JSON.stringify(courses));
-    } catch (error) {
-      console.error("Error caching courses:", error);
-    }
+    } catch (error) {}
   },
 
   async getCachedCourses(): Promise<Course[] | null> {
@@ -18,7 +16,6 @@ export const coursesService = {
       const cachedData = await AsyncStorage.getItem(COURSES_CACHE_KEY);
       return cachedData ? JSON.parse(cachedData) : null;
     } catch (error) {
-      console.error("Error getting cached courses:", error);
       return null;
     }
   },
@@ -29,9 +26,7 @@ export const coursesService = {
         `${COURSE_DETAILS_PREFIX}${courseId}`,
         JSON.stringify(course)
       );
-    } catch (error) {
-      console.error("Error caching course details:", error);
-    }
+    } catch (error) {}
   },
 
   async getCachedCourseDetails(courseId: string): Promise<Course | null> {
@@ -41,7 +36,6 @@ export const coursesService = {
       );
       return cachedData ? JSON.parse(cachedData) : null;
     } catch (error) {
-      console.error("Error getting cached course details:", error);
       return null;
     }
   },
@@ -51,8 +45,6 @@ export const coursesService = {
       const keys = await AsyncStorage.getAllKeys();
       const cacheKeys = keys.filter((key) => key.startsWith("@lms_"));
       await AsyncStorage.multiRemove(cacheKeys);
-    } catch (error) {
-      console.error("Error clearing cache:", error);
-    }
+    } catch (error) {}
   },
 };
